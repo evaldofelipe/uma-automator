@@ -1,0 +1,21 @@
+---
+- name: Install Docker Module for Python
+  pip:
+    name: docker
+
+- name: Create config file
+  template:
+    src: "/uma-automator/ansible/roles/uma-bot-ansible/files/uma/{{ item }}.j2"
+    dest: "/home/uma/{{ item }}"
+    force: false
+  with_items:
+    - user_config.env
+
+
+- name: Start UMA bot container
+  docker_container:
+    name: "{{ uma_bot_name }}"
+    env_file: "/home/uma/user_config.env"
+    recreate: yes
+    image: "{{ uma_bot_docker_image }}"
+    command: "yarn --silent liquidator --network {{ uma_bot_network_name }}"
