@@ -9,6 +9,10 @@ tags ?= all
 base-docker-run = docker run \
 	--env GCP_TOKEN \
   --env PROJECT \
+	--env EMP_ADDRESS \
+	--env PRIVATE_KEY \
+	--env CUSTOM_NODE_URL \
+	--env COMMAND \
 	--env TF_VAR_project=$(PROJECT) \
 	--rm \
 	--volume $(shell pwd):/uma-automator \
@@ -36,6 +40,18 @@ ansible-docker-run = $(base-docker-run) \
 .PHONY: bash
 bash: ##@ run the project container on interactive mode for debug
 	@$(base-docker-run) -it uma-automator /bin/bash
+
+.PHONY: logs-check
+logs-check: ##@ access the current deployed VM and tail log file
+	@$(base-docker-run) -it uma-automator /bin/bash tools/logs-check.sh
+
+.PHONY: logs-download
+logs-download: ##@ download the log file
+	@$(base-docker-run) -it uma-automator /bin/bash tools/logs-download.sh
+
+.PHONY: bot-debug
+bot-debug: ##@ access the bot VM for debug
+	@$(base-docker-run) -it uma-automator /bin/bash tools/bot-debug.sh
 
 # Terraform commands
 
