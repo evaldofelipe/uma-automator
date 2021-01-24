@@ -2,7 +2,7 @@
 
 variable "location" {
   description = "The GCP region where the resources should exist"
-  default     = "us-east1-b"
+  default     = "us-east1-c"
 }
 
 variable "subnet_location" {

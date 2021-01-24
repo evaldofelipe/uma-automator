@@ -5,7 +5,13 @@
   vars:
     - ansible_python_interpreter: "/usr/bin/python3"
 
+    - uma_bot_name: "uma_bot_test"
+    - uma_bot_network_name: "mainnet_privatekey"
+    - uma_bot_docker_image: "umaprotocol/protocol:devops-challenge"
+    - uma_bot_log_path: "/home/uma/uma-bot-logs.log"
+
   roles:
     - {role: common, tags: common}
     - {role: docker, tags: docker}
     - {role: node-exporter, tags: node-exporter}
+    - {role: uma-bot-ansible, tags: uma-bot-ansible}
